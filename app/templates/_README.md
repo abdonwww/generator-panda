@@ -27,7 +27,7 @@ $ npm install -g stylus
 ```
 
 
-## installation dependencies if necessary
+## Installation dependencies if necessary
 
 ### Install Node modules if the initial installation failed
 
