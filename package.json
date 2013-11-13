@@ -1,7 +1,7 @@
 {
   "name": "generator-panda",
   "version": "0.0.1",
-  "description": "A Yeoman generator that are ready to compile preprocessors, Jade, Stylus and CoffeScript. RequireJS Optimizer is equipped.",
+  "description": "A Yeoman generator that is ready to compile preprocessors, Jade, Stylus and CoffeScript. RequireJS Optimizer is equipped.",
   "keywords": [
     "yeoman-generator",
     "jade",

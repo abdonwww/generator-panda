@@ -64,6 +64,7 @@ PandaGenerator.prototype.app = function app() {
   this.template('_Gruntfile.coffee', 'Gruntfile.coffee');
   this.template('_bower.json', 'bower.json');
   this.template('_package.json', 'package.json');
+  this.template('_README.md', 'README.md');
 };
 
 PandaGenerator.prototype.projectfiles = function projectfiles() {
