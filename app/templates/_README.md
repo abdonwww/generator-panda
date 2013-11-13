@@ -10,19 +10,19 @@
 
 ### [Jade](http://jade-lang.com/)
 
-```Jade
+```
 $ npm install -g jade
 ```
 
 ### [CoffeeScript](http://coffeescript.org/)
 
-```CoffeeScript
+```
 $ npm install -g coffee-script
 ```
 
 ### [Stylus](http://learnboost.github.io/stylus/)
 
-```Stylus
+```
 $ npm install -g stylus
 ```
 
@@ -31,13 +31,13 @@ $ npm install -g stylus
 
 ### Install Node modules if the initial installation failed
 
-```Node modules
+```
 $ npm install
 ```
 
 ### Install Bower components if the initial installation failed
 
-```Bower components
+```
 $ bower install
 ```
 
@@ -45,7 +45,7 @@ $ bower install
 
 ### Default
 
-```Default
+```
 $ grunt
 ```
 
@@ -54,7 +54,7 @@ $ grunt
 
 ### Build
 
-```Build
+```
 $ grunt build
 ```
 
@@ -62,7 +62,7 @@ $ grunt build
 
 ### Build for development
 
-```Build for development
+```
 $ grunt build:development
 ```
 
@@ -71,7 +71,7 @@ $ grunt build:development
 
 ### Build for preview
 
-```Build for preview
+```
 $ grunt build:preview
 ```
 
@@ -80,7 +80,7 @@ $ grunt build:preview
 
 ### Build for production
 
-```Build for production
+```
 $ grunt build:production
 ```
 
