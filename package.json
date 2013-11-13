@@ -1,9 +1,13 @@
 {
   "name": "generator-panda",
-  "version": "0.0.0",
-  "description": "A generator for Yeoman",
+  "version": "0.0.1",
+  "description": "A Yeoman generator that are ready to compile preprocessors, Jade, Stylus and CoffeScript. RequireJS Optimizer is equipped.",
   "keywords": [
-    "yeoman-generator"
+    "yeoman-generator",
+    "jade",
+    "coffee-script",
+    "stylus",
+    "requirejs"
   ],
   "homepage": "https://github.com/abdonwww/generator-panda",
   "bugs": "https://github.com/abdonwww/generator-panda/issues",

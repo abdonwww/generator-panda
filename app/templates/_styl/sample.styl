@@ -1,0 +1,13 @@
+@import "_parts/components"
+
+table
+  for row in 1 2 3 4 5
+    tr:nth-child({row})
+      height: 10px * row
+
+#test
+  p
+    background red
+  ul
+    background blue
+    border-radius 10px

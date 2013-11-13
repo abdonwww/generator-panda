@@ -1,6 +1,39 @@
 {
-  "name": "package",
+  "name": "<%= _.slugify(projectName) %>",
   "version": "0.0.0",
-  "dependencies": {}
-}
+  "main": "js/main.js",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components"
+  ],
+  "dependencies": {
+    "almond": "~0.2.6",
+    "requirejs": "~2.1.9",
+    "jquery": "~2.0.3",
+    "modernizr": "~2.6.2",
+    "respond": "~1.3.0",
+    "html5shiv": "~3.7.0"
+  },
+  "exportsOverride": {
+    "requirejs": {
+      "devel": "**/require.js"
+    },
+    "almond": {
+      "prod": "**/almond.js"
+    },
+    "jquery": {
+      "prod": "**/jquery.js"
+    },
+    "html5shiv": {
+      "prod": "**/html5shiv.js"
+    },
+    "respond": {
+      "prod": "**/respond.min.js"
+    },
+    "modernizr": {
+      "prod": "**/modernizr.js"
+    }
 
+  }
+}
