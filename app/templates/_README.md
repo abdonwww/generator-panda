@@ -9,16 +9,19 @@
 ## Prerequisites
 
 ### [Jade](http://jade-lang.com/)
+
 ```Jade
 $ npm install -g jade
 ```
 
 ### [CoffeeScript](http://coffeescript.org/)
+
 ```CoffeeScript
 $ npm install -g coffee-script
 ```
 
 ### [Stylus](http://learnboost.github.io/stylus/)
+
 ```Stylus
 $ npm install -g stylus
 ```
@@ -27,11 +30,13 @@ $ npm install -g stylus
 ## installation dependencies if necessary
 
 ### Install Node modules if the initial installation failed
+
 ```Node modules
 $ npm install
 ```
 
 ### Install Bower components if the initial installation failed
+
 ```Bower components
 $ bower install
 ```
@@ -39,14 +44,16 @@ $ bower install
 ## Grunt Tasks
 
 ### Default
+
 ```Default
 $ grunt
 ```
 
 - Alias task of `build:development`, `connect` and `watch`
-- Run the simple server on [http://localhost:8000/](http://localhost:8000/) by defualt.
+- Run a simple server on [http://localhost:8000/](http://localhost:8000/) by defualt.
 
 ### Build
+
 ```Build
 $ grunt build
 ```
@@ -54,6 +61,7 @@ $ grunt build
 - Alias task of `build:production`
 
 ### Build for development
+
 ```Build for development
 $ grunt build:development
 ```
@@ -62,6 +70,7 @@ $ grunt build:development
 - Load JavaScript files asynchronously via [RequireJS](http://requirejs.org/)
 
 ### Build for preview
+
 ```Build for preview
 $ grunt build:preview
 ```
@@ -70,6 +79,7 @@ $ grunt build:preview
 - Consolidate a bunch of JavaScript files with [RequireJS Optimizer](http://requirejs.org/docs/optimization.html) and [Almond](https://github.com/jrburke/almond)
 
 ### Build for production
+
 ```Build for production
 $ grunt build:production
 ```
