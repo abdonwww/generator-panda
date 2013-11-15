@@ -49,6 +49,8 @@ mixin template()
       +analysis()
 
 mixin styles()
+  link(rel="stylesheet", href=rootDir + "vendor/css/assets.css")
+
   - for (var i = 0; i < page.styles.length; i++)
     link(rel="stylesheet", href=page.styles[i] + ".css")
 
@@ -61,11 +63,11 @@ mixin scripts()
 mixin requirejs()
   if page.requirejs !== ""
     if debug
-      script(src=rootDir + "js/_config.js")
-      script(src=rootDir + "js/_lib/devel/requirejs/require.js", data-main=page.requirejs + ".js")
+      script(src=rootDir + "_config.js")
+      script(src=rootDir + "vendor/assets/requirejs/js/require.js", data-main=page.requirejs + ".js")
 
     else
-      script(src=rootDir + "js/libraries.js")
+      script(src=rootDir + "vendor/js/assets.js")
       script(src=page.requirejs + ".js")
 
 mixin analysis()

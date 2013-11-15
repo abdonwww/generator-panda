@@ -17,23 +17,22 @@
   },
   "exportsOverride": {
     "requirejs": {
-      "devel": "**/require.js"
+      "js": "**/require.js"
     },
     "almond": {
-      "prod": "**/almond.js"
+      "js": "**/almond.js"
     },
     "jquery": {
-      "prod": "**/jquery.js"
+      "js": "**/jquery.js"
     },
     "html5shiv": {
-      "prod": "**/html5shiv.js"
+      "js": "**/html5shiv.js"
     },
     "respond": {
-      "prod": "**/respond.min.js"
+      "js": "**/respond.min.js"
     },
     "modernizr": {
-      "prod": "**/modernizr.js"
+      "js": "**/modernizr.js"
     }
-
   }
 }

@@ -1,10 +1,10 @@
 {
   "name": "<%= _.slugify(projectName) %>",
   "version": "0.0.0",
-  <% if(false) { %>
+  <% if(gitUrl !== '') { %>
   "repository": {
     "type": "git",
-    "url": "<%= _.slugify(projectName) %>"
+    "url": "<%= gitUrl %>"
   },
   <% } %>
   "devDependencies": {

@@ -32,7 +32,8 @@ PandaGenerator.prototype.askFor = function askFor() {
   {
     type: 'input',
     name: 'gitUrl',
-    message: 'What is the url of the Git repository if you use?'
+    message: 'What is the url of the Git repository if you use?',
+    default: ''
   }//,
   // {
   //   type: 'checkbox',
@@ -49,7 +50,8 @@ PandaGenerator.prototype.askFor = function askFor() {
 
   this.prompt(prompts, function (props) {
     this.projectName = props.projectName;
-    this.preprocessors = props.preprocessors;
+    this.gitUrl = props.gitUrl;
+    // this.preprocessors = props.preprocessors;
 
     cb();
   }.bind(this));

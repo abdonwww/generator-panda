@@ -1,11 +1,12 @@
 options =
-  # optimize: 'uglify2'
+  optimize: 'uglify2'
   generateSourceMaps: false
   preserveLicenseComments: true
-  wrap: true
+  wrap: false
 
   baseUrl: '/'
   paths:
+    almond: './vendor/assets/almond/js/almond'
     html5shiv: './vendor/assets/html5shiv/js/html5shiv'
     modernizr: './vendor/assets/modernizr/js/modernizr'
     respond: './vendor/assets/respond/js/respond.min'
@@ -16,7 +17,8 @@ options =
     jquery:
         exports: '$'
 
-  exclude: [
+  include: [
+    'almond'
     'html5shiv'
     'modernizr'
     'respond'
