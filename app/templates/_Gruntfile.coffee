@@ -50,7 +50,7 @@ module.exports = (grunt) ->
         tasks: ["jshint"]
       copy:
         files: ["static/**/*"]
-        tasks: ["copy:development"]
+        tasks: ["copy:temporary"]
       jade:
         files: ["jade/**/*.jade"]
         tasks: ["jade:development"]
@@ -74,7 +74,7 @@ module.exports = (grunt) ->
      Copy
     ###
     copy:
-      development:
+      temporary:
         files: [
           {
             expand: true
@@ -82,16 +82,6 @@ module.exports = (grunt) ->
             cwd: "static/"
             src: ['**']
             dest: "#{tempDir}/"
-          }
-        ]
-      production:
-        files: [
-          {
-            expand: true
-            flatten: false
-            cwd: "static/"
-            src: ['**', '!**/_*.{png,jpg,gif}']
-            dest: "#{buildDir}/"
           }
         ]
 
@@ -109,9 +99,16 @@ module.exports = (grunt) ->
           {
             expand: true
             flatten: false
-            cwd: "static/"
-            src: ['**/*.{png,jpg,gif}']
+            cwd: "#{tempDir}/"
+            src: ['**/*.{png,jpg,gif}', '!vendor/**']
             dest: "#{buildDir}/"
+          }
+          {
+            expand: true
+            flatten: true
+            cwd: "#{tempDir}/"
+            src: ['vendor/**/*.{png,jpg,gif}']
+            dest: "#{buildDir}/vendor/img/"
           }
         ]
 
@@ -121,8 +118,9 @@ module.exports = (grunt) ->
     bower:
       install:
         options:
-          targetDir: "#{tempDir}/js/_lib/"
-          layout: 'byType' # or "byComponent"
+          targetDir: "#{tempDir}/vendor/assets/"
+          # targetDir: "#{tempDir}/js/_lib/"
+          layout: 'byComponent' # or "byType"
           install: true # Whether you want to run bower install task itself (e.g. you might not want to do this each time on CI server).
           copy: true # Copy Bower packages to target directory.
           verbose: false # Display detail log output
@@ -158,51 +156,57 @@ module.exports = (grunt) ->
             rootDir: "/"
             debug: true
             # projectDir: __dirname
-        files: [{
-          dot: true
-          matchBase: true
+        files: [
+          {
+            dot: true
+            matchBase: true
 
-          expand: true
-          flatten: false
-          cwd: 'jade/'
-          src: ['**/*.jade', '!**/_*.jade', '!**/_*/**/*.jade']
-          dest: "#{tempDir}/"
-          ext: '.html'
-        }]
+            expand: true
+            flatten: false
+            cwd: 'jade/'
+            src: ['**/*.jade', '!**/_*.jade', '!**/_*/**/*.jade']
+            dest: "#{tempDir}/"
+            ext: '.html'
+          }
+        ]
       preview:
         options:
           data:
-            rootDir: "/path/to/directory/"
+            rootDir: "/path/to/directory"
             debug: false
             # projectDir: __dirname
-        files: [{
-          dot: true
-          matchBase: true
+        files: [
+          {
+            dot: true
+            matchBase: true
 
-          expand: true
-          flatten: false
-          cwd: 'jade/'
-          src: ['**/*.jade', '!**/_*.jade', '!**/_*/**/*.jade']
-          dest: "#{buildDir}/"
-          ext: '.html'
-        }]
+            expand: true
+            flatten: false
+            cwd: 'jade/'
+            src: ['**/*.jade', '!**/_*.jade', '!**/_*/**/*.jade']
+            dest: "#{buildDir}/"
+            ext: '.html'
+          }
+        ]
       production:
         options:
           data:
-            rootDir: "/path/to/directory/"
+            rootDir: "/path/to/directory"
             debug: false
             # projectDir: __dirname
-        files: [{
-          dot: true
-          matchBase: true
+        files: [
+          {
+            dot: true
+            matchBase: true
 
-          expand: true
-          flatten: false
-          cwd: 'jade/'
-          src: ['**/*.jade', '!**/_*.jade', '!**/_*/**/*.jade']
-          dest: "#{buildDir}/"
-          ext: '.html'
-        }]
+            expand: true
+            flatten: false
+            cwd: 'jade/'
+            src: ['**/*.jade', '!**/_*.jade', '!**/_*/**/*.jade']
+            dest: "#{buildDir}/"
+            ext: '.html'
+          }
+        ]
 
     ###*
      Stylus
@@ -215,39 +219,45 @@ module.exports = (grunt) ->
         # paths: ['path/to/import', 'another/to/import']
         define: {
           pkg: grunt.pkg
+          projectDir: process.cwd()
         } # Allows you to define global variables in Gruntfile that will be accessible in Stylus files.
         # urlfunc: "String: Specifies function name that should be used for embedding images as Data URI."
         use: [] # Allows passing of stylus plugins to be used during compile
         import: []
-        "include css": true
+        "include css": false
         "resolve url": true
         banner: '/*! <%%= pkg.name %> <%%= grunt.template.today("yyyy-mm-dd") %> */'
       development:
-        files: [{
-          dot: true
-          matchBase: true
+        files: [
+          {
+            dot: true
+            matchBase: true
 
-          expand: true
-          flatten: false
-          cwd: 'styl/'
-          src: ['**/*.styl', '!**/_*.styl', '!**/_*/**/*.styl']
-          dest: "#{tempDir}/css/"
-          ext: '.css'
-        }]
+            expand: true
+            flatten: false
+            cwd: 'styl/'
+            src: ['**/*.styl']
+            dest: "#{tempDir}/"
+            ext: '.css'
+          }
+        ]
       production:
         options:
+          "include css": true
           linenos: false
-        files: [{
-          dot: true
-          matchBase: true
+        files: [
+          {
+            dot: true
+            matchBase: true
 
-          expand: true
-          flatten: false
-          cwd: 'styl/'
-          src: ['**/*.styl', '!**/_*.styl', '!**/_*/**/*.styl']
-          dest: "#{buildDir}/css/"
-          ext: '.css'
-        }]
+            expand: true
+            flatten: false
+            cwd: 'styl/'
+            src: ['**/*.styl', '!**/_*.styl', '!**/_*/**/*.styl']
+            dest: "#{buildDir}/"
+            ext: '.css'
+          }
+        ]
 
     ###*
      Coffeescript
@@ -268,7 +278,7 @@ module.exports = (grunt) ->
           flatten: false
           cwd: 'coffee/'
           src: ['**/*.coffee']
-          dest: "#{tempDir}/js/"
+          dest: "#{tempDir}/"
           ext: '.js'
         }]
 
@@ -299,19 +309,26 @@ module.exports = (grunt) ->
     requireConfig = {}
 
     # Consolidate libraries
-    libConfig = require("./#{tempDir}/js/_lib/_config")
-    requireConfig["library"] =
+    requireConfig["vendorCSS"] =
+      options:
+        optimizeCSS: "standard.keepComments.keepLines"
+        cssIn: "#{tempDir}/vendor/css/assets.css"
+        out: "#{buildDir}/vendor/css/assets.css"
+
+    # Consolidate libraries
+    libConfig = require("./#{tempDir}/vendor/js/assets")
+    requireConfig["vendorJS"] =
       options: extend(true, {}, libConfig, {
         baseUrl: tempDir
         # name: "js/_lib/libraries"
         # insertRequire: []
-        out: "#{buildDir}/js/libraries.js"
+        out: "#{buildDir}/vendor/js/assets.js"
       })
 
     # Consolidate general scripts
-    baseConfig = require("./#{tempDir}/js/_config")
+    baseConfig = require("./#{tempDir}/_config")
     requireFiles = grunt.file.expandMapping(
-      ['**/*.js', '!**/_*.js', '!**/_*/**/*.js']
+      ['**/*.js', '!**/_*.js', '!**/_*/**/*.js', '!vendor/**/*.js']
       tempDir
       {
         cwd: tempDir
@@ -342,10 +359,10 @@ module.exports = (grunt) ->
    Register tasks
   ###
   grunt.registerTask "build:development", "Build for development", [
-    "clean:development"
+    "clean"
     "jshint"
     "bower"
-    "copy:development"
+    "copy"
     "jade:development"
     "stylus:development"
     "coffee"
@@ -355,10 +372,10 @@ module.exports = (grunt) ->
     "clean"
     "jshint"
     "bower"
-    "copy:production"
+    "copy"
     "imagemin:production"
     "jade:preview"
-    "stylus:production"
+    "stylus"
     "coffee"
     "custom_requirejs"
     "clean:development"
@@ -368,10 +385,10 @@ module.exports = (grunt) ->
     "clean"
     "jshint"
     "bower"
-    "copy:production"
+    "copy"
     "imagemin:production"
     "jade:production"
-    "stylus:production"
+    "stylus"
     "coffee"
     "custom_requirejs"
     "clean:development"
@@ -386,8 +403,3 @@ module.exports = (grunt) ->
     grunt.task.run 'build:development'
     grunt.task.run 'connect'
     grunt.task.run 'watch'
-
-
-
-
-
