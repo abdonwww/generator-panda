@@ -19,6 +19,13 @@ module.exports = (grunt) ->
   buildDir = 'build'
 
   ###*
+   Initialize RootDir
+  ###
+  developmentRoot = '/'
+  previewRoot     = '/path/to/directory/'
+  productionRoot  = '/path/to/directory/'
+
+  ###*
    Configure
   ###
   grunt.initConfig
@@ -153,7 +160,7 @@ module.exports = (grunt) ->
       development:
         options:
           data:
-            rootDir: "/"
+            rootDir: developmentRoot
             debug: true
             # projectDir: __dirname
         files: [
@@ -172,7 +179,7 @@ module.exports = (grunt) ->
       preview:
         options:
           data:
-            rootDir: "/path/to/directory"
+            rootDir: previewRoot
             debug: false
             # projectDir: __dirname
         files: [
@@ -190,8 +197,9 @@ module.exports = (grunt) ->
         ]
       production:
         options:
+          # pretty: false
           data:
-            rootDir: "/path/to/directory"
+            rootDir: productionRoot
             debug: false
             # projectDir: __dirname
         files: [
@@ -217,10 +225,10 @@ module.exports = (grunt) ->
         linenos: true
         firebug: false
         # paths: ['path/to/import', 'another/to/import']
-        define: {
-          pkg: grunt.pkg
-          projectDir: process.cwd()
-        } # Allows you to define global variables in Gruntfile that will be accessible in Stylus files.
+        # define: {
+        #   pkg: grunt.pkg
+        #   projectDir: process.cwd()
+        # } # Allows you to define global variables in Gruntfile that will be accessible in Stylus files.
         # urlfunc: "String: Specifies function name that should be used for embedding images as Data URI."
         use: [] # Allows passing of stylus plugins to be used during compile
         import: []
@@ -228,6 +236,11 @@ module.exports = (grunt) ->
         "resolve url": true
         banner: '/*! <%%= pkg.name %> <%%= grunt.template.today("yyyy-mm-dd") %> */'
       development:
+        options:
+            define:
+              pkg: grunt.pkg
+              projectDir: process.cwd()
+              rootDir: developmentRoot
         files: [
           {
             dot: true
@@ -241,10 +254,36 @@ module.exports = (grunt) ->
             ext: '.css'
           }
         ]
-      production:
+      preview:
         options:
           "include css": true
           linenos: false
+          define:
+            pkg: grunt.pkg
+            projectDir: process.cwd()
+            rootDir: previewRoot
+        files: [
+          {
+            dot: true
+            matchBase: true
+
+            expand: true
+            flatten: false
+            cwd: 'styl/'
+            src: ['**/*.styl', '!**/_*.styl', '!**/_*/**/*.styl']
+            dest: "#{buildDir}/"
+            ext: '.css'
+          }
+        ]
+      production:
+        options:
+          "include css": true
+          compress: true
+          linenos: false
+          define:
+            pkg: grunt.pkg
+            projectDir: process.cwd()
+            rootDir: productionRoot
         files: [
           {
             dot: true
@@ -264,8 +303,8 @@ module.exports = (grunt) ->
     ###
     coffee:
       options:
-        separator: "/* Grunt Separator */"
-        bare: false
+        separator: ";"
+        bare: true
         join: false
         sourceMap: false
 
@@ -300,6 +339,22 @@ module.exports = (grunt) ->
     ###
     requirejs: {}
 
+    ###*
+     Create the original tasks
+    ###
+    concat:
+      options:
+        separator: ';'
+        banner: '/*! <%%= pkg.name %> <%%= grunt.template.today("yyyy-mm-dd") %> */'
+        footer: ''
+        stripBanners: false
+        process: false
+      development:
+        src: ["#{tempDir}/vendor/**/pre_js/**/*.js"]
+        dest: "#{tempDir}/vendor/assets/prescripts.js"
+      production:
+        src: ["#{tempDir}/vendor/**/pre_js/**/*.js"]
+        dest: "#{buildDir}/vendor/assets/prescripts.js"
 
   ###*
    Create the original tasks
@@ -312,17 +367,17 @@ module.exports = (grunt) ->
     requireConfig["vendorCSS"] =
       options:
         optimizeCSS: "standard.keepComments.keepLines"
-        cssIn: "#{tempDir}/vendor/css/assets.css"
-        out: "#{buildDir}/vendor/css/assets.css"
+        cssIn: "#{tempDir}/vendor/assets/styles.css"
+        out: "#{buildDir}/vendor/assets/styles.css"
 
     # Consolidate libraries
-    libConfig = require("./#{tempDir}/vendor/js/assets")
+    libConfig = require("./#{tempDir}/vendor/assets/scripts")
     requireConfig["vendorJS"] =
       options: extend(true, {}, libConfig, {
         baseUrl: tempDir
         # name: "js/_lib/libraries"
         # insertRequire: []
-        out: "#{buildDir}/vendor/js/assets.js"
+        out: "#{buildDir}/vendor/assets/scripts.js"
       })
 
     # Consolidate general scripts
@@ -365,6 +420,7 @@ module.exports = (grunt) ->
     "copy"
     "jade:development"
     "stylus:development"
+    "concat:development"
     "coffee"
   ]
 
@@ -375,7 +431,9 @@ module.exports = (grunt) ->
     "copy"
     "imagemin:production"
     "jade:preview"
-    "stylus"
+    "stylus:development"
+    "stylus:preview"
+    "concat:production"
     "coffee"
     "custom_requirejs"
     "clean:development"
@@ -388,7 +446,9 @@ module.exports = (grunt) ->
     "copy"
     "imagemin:production"
     "jade:production"
-    "stylus"
+    "stylus:development"
+    "stylus:production"
+    "concat:production"
     "coffee"
     "custom_requirejs"
     "clean:development"

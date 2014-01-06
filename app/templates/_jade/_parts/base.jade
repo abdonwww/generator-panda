@@ -1,9 +1,11 @@
 - var page = {}
 - page.ogp = {}
+- page.path = ""
 - page.styles = []
 - page.scripts = []
 - page.requirejs = ""
 - page.title           = "Default Title"
+- page.site_title      = "Default Site Title"
 - page.keywords        = "keywords,keywords,keywords"
 - page.description     = "Description"
 - page.ogp.title       = "Default Title"
@@ -13,22 +15,30 @@
 - page.ogp.image       = "http://example.com/img/ogp.png"
 - page.ogp.description = "OGP Description"
 
-
 mixin template()
   doctype 5
   //if lt IE 7
-    <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="ja" prefix="og: http://ogp.me/ns# fb: http://www.facebook.com/2008/fbml">
+    <html class="lt-ie9 lt-ie8 lt-ie7" lang="ja" prefix="og: http://ogp.me/ns# fb: http://www.facebook.com/2008/fbml">
   //if IE 7
-    <html class="no-js lt-ie9 lt-ie8" lang="ja" prefix="og: http://ogp.me/ns# fb: http://www.facebook.com/2008/fbml">
+    <html class="lt-ie9 lt-ie8" lang="ja" prefix="og: http://ogp.me/ns# fb: http://www.facebook.com/2008/fbml">
   //if IE 8
-    <html class="no-js lt-ie9" lang="ja" prefix="og: http://ogp.me/ns# fb: http://www.facebook.com/2008/fbml">
+    <html class="lt-ie9" lang="ja" prefix="og: http://ogp.me/ns# fb: http://www.facebook.com/2008/fbml">
   <!--[if gt IE 8]><!-->
-  html(class='no-js', lang='ja', prefix="og: http://ogp.me/ns# fb: http://www.facebook.com/2008/fbml")
+  html(lang='ja', prefix="og: http://ogp.me/ns# fb: http://www.facebook.com/2008/fbml")
     <!--<![endif]-->
     head
       meta(charset="UTF-8")
-      title= page.title
-      meta(name="viewport", content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no")
+      if page.title !== ""
+        title #{page.title} | #{page.site_title}
+      else
+        title #{page.site_title}
+      script.
+        (function(){
+          var ua = navigator.userAgent.toLowerCase();
+          if (ua.indexOf('iphone') > -1 || (ua.indexOf('android') > -1 && ua.indexOf('mobile') > -1)) {
+            document.write('<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"' + ' />');
+          }
+        })();
       meta(name="description", content=page.description)
       meta(name="keywords", content=page.keywords)
       meta(property="og:title", content=page.ogp.title)
@@ -37,20 +47,21 @@ mixin template()
       meta(property="og:url", content=page.ogp.url)
       meta(property="og:image", content=page.ogp.image)
       meta(property="og:description", content=page.ogp.description)
-      +styles()
+      link(rel="stylesheet", href=rootDir + "vendor/assets/styles.css")
+      +styles()]
+      script(src=rootDir + "vendor/assets/prescripts.js")
+
     body
       if block
         block
       else
         p
           | No content provided
-      +scripts()
       +requirejs()
+      +scripts()
       +analysis()
 
 mixin styles()
-  link(rel="stylesheet", href=rootDir + "vendor/css/assets.css")
-
   - for (var i = 0; i < page.styles.length; i++)
     link(rel="stylesheet", href=page.styles[i] + ".css")
 
@@ -67,14 +78,14 @@ mixin requirejs()
       script(src=rootDir + "vendor/assets/requirejs/js/require.js", data-main=page.requirejs + ".js")
 
     else
-      script(src=rootDir + "vendor/js/assets.js")
+      script(src=rootDir + "vendor/assets/scripts.js")
       script(src=page.requirejs + ".js")
 
 mixin analysis()
   // google analytics
   script(type="text/javascript").
     var _gaq = _gaq || [];
-    _gaq.push(['_setAccount', 'UA-00000000-0']);
+    _gaq.push(['_setAccount', 'UA-39104813-1']);
     _gaq.push(['_trackPageview']);
     (function() {
       var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
