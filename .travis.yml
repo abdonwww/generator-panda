@@ -2,18 +2,13 @@ language: node_js
 node_js:
   - '0.8'
   - '0.10'
+
 before_install:
-  - npm install -g grunt-cli
-  - npm install -g jade
-  - npm install -g coffee-script
-  - npm install -g stylus
   - currentfolder=${PWD##*/}
   - if [ "$currentfolder" != 'generator-panda' ]; then cd .. && eval "mv $currentfolder generator-panda" && cd generator-panda; fi
 
 script:
-  - grunt
-  - grunt build:preview
-  - grunt build
+  - yo panda
 
 notifications:
   emails:
