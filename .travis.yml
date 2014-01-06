@@ -6,3 +6,13 @@ before_install:
   - currentfolder=${PWD##*/}
   - if [ "$currentfolder" != 'generator-panda' ]; then cd .. && eval "mv $currentfolder generator-panda" && cd generator-panda; fi
 
+script:
+  - grunt
+  - grunt build:preview
+  - grunt build
+
+notifications:
+  emails:
+    - abdonwww@gmail.com
+  on_success: always # default: change
+  on_failure: always
