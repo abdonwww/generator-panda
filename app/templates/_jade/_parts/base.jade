@@ -62,8 +62,6 @@ mixin template()
       +analysis()
 
 mixin styles()
-  link(rel="stylesheet", href=rootDir + "vendor/css/assets.css")
-
   - for (var i = 0; i < page.styles.length; i++)
     link(rel="stylesheet", href=page.styles[i] + ".css")
 
