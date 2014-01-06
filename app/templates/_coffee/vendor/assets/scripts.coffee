@@ -4,17 +4,18 @@ options =
   optimize: 'uglify2'
   generateSourceMaps: false
   preserveLicenseComments: true
-  wrap: true
+  wrap: false
 
   baseUrl: '/'
   paths:
-    rootDir: './'
+    almond: './vendor/assets/almond/js/almond'
     jquery: './vendor/assets/jquery/js/jquery'
 
   # load non-amd dependencies
   shim: {}
 
-  exclude: [
+  include: [
+    'almond'
     'jquery'
   ]
 
