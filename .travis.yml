@@ -10,8 +10,6 @@ before_install:
 
 script:
   - npm install -g generator-panda
-  - yo panda
-  - n
 
 notifications:
   emails:
